@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 from inp_files.e02 import * # select input file
 from functions.funcs import *
 from functions.plots import *
-from functions.output_operate import *
+from functions.out_opr import *
 
 # import truss data
 X = np.matrix(X)

@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 from inp_files.e03 import * # select input file
 from functions.funcs import *
 from functions.plots import *
-from functions.output_operate import *
+from functions.out_opr import *
 from functions.signorini_stress_strain import *
 from functions.mnltc_funcs import *
 
