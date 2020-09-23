@@ -10,7 +10,7 @@ from functions.funcs import *
 from functions.plots import *
 from functions.output_operate import *
 from functions.signorini_stress_strain import *
-from functions.mnltc import *
+from functions.mnltc_funcs import *
 
 # import truss data
 X = np.matrix(X)
