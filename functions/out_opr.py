@@ -2,8 +2,16 @@ def write_output(ne:int, neq:int, D, RF, le, ls, N):
     """
     write outputs in a .csv file
 
-    input:
+    input(s):
+    ne : number of elements
+    neq : degree of freedom
+    D : global displacement vector
+    RF : residual vector (reaction forces at supports)
+    le : element strain
+    ls : element stress
+    N : element force
 
+    originally coded by Amir Baharvand (AB) (09-20)
     """
     with open('output.txt', 'w') as rpt:
         rpt.write('node, D, RF,e, le, ls, N\n')
@@ -28,6 +36,7 @@ def show_output(ne:int, neq:int, D, RF, le, ls, N):
     ls : element stress
     N : element force
 
+    originally coded by Amir Baharvand (AB) (09-20)
     """
     print('node {:<10} D {:<10} RF \n'.format(' ', ' '))
     for ii in range(neq):

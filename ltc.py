@@ -4,7 +4,7 @@ import matplotlib
 from matplotlib import pyplot as plt
 
 from inp_files.e02 import * # select input file
-from functions.funcs import *
+from functions.ltc_funcs import *
 from functions.plots import *
 from functions.out_opr import *
 
@@ -45,34 +45,18 @@ for n in range(ne):
 
 
 # applying the boundary conditions on K
-for ii in range(nb):
-    a = int(bound[ii, 0])
-    b = int(bound[ii, 1])
-    if (b % 2) != 0:
-        K[2 * a - 2, :] = 0
-        K[:, 2 * a - 2] = 0
-        K[2 * a - 2, 2 * a - 2] = 1
-    else: # if (b % 2) == 0
-        K[2 * a - 1, :] = 0
-        K[:, 2 * a - 1] = 0
-        K[2 * a - 1, 2 * a - 1] = 1
+K = bnd_cnd_K(bound, nb, K)
 
 
 # build-up point load vector
-for ii in range(nl):
-    a = int(loads[ii, 0])
-    b = int(loads[ii, 1])
-    c = loads[ii, 2]
-    if (b % 2) != 0:
-        p[2 * a - 2] = c
-    else:
-        p[2 * a - 1] = c
+p = build_load_vec(loads, nl, p)
 
 # computing D
 # for K matrices close to singular or ill-conditioned, 
 # pseudo-inverse of K based on singular value decomposition (SVD)
 D = np.linalg.pinv(K).dot(p)
 
+# computing R
 for n in range(ne):
     [L0, edof, B0] = strn_displ_vec(IX, X, n)
     c = IX[n, 2]

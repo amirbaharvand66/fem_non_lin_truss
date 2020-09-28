@@ -7,14 +7,16 @@ from matplotlib.lines import Line2D
 
 def plot_def_udef(IX, X, D:list, ls:list, ne:int):
     """
-    plot deformed and undeformed states
+    plot truss deformed and undeformed states
     
     input(s):
     IX : nodal coordinates
     X : topology matrix (element connection matrix)
     D : global displacement vector
     ls : stress vector
-    ne : number of elements  
+    ne : number of elements
+
+    originally coded by Amir Baharvand (AB) (09-20)
     """
     # plot lines for legend
     legend_lines = [Line2D([0], [0], color = 'b'),

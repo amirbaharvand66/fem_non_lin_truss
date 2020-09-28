@@ -15,8 +15,5 @@ Finite Element Method (FEM) for non-linear trusses
 ## Installation
 Coded with Python. Required Numpy, Matplotlib and SciPy packages to run.
 
-## Previous Version(s)
-
-
 ## Contributor(s)
 [Amir Baharvand](ambahar@outlook.com)

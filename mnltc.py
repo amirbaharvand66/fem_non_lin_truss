@@ -6,11 +6,12 @@ import matplotlib
 from matplotlib import pyplot as plt
 
 from inp_files.e03 import * # select input file
-from functions.funcs import *
+from functions.ltc_funcs import *
+from functions.nltc_funcs import *
 from functions.plots import *
 from functions.out_opr import *
 from functions.signorini_stress_strain import *
-from functions.mnltc_funcs import *
+from functions.mnltc_inc_mtd import * # material nonlinearity incremental methods
 
 # import truss data
 X = np.matrix(X)
