@@ -66,7 +66,7 @@ def mnl_int_force(IX, X, mprop, ne, D, R_int, c1, c2, c3, c4):
         N = A * ls
         # computing residual vector 
         re = B0 * N * L0  # local residual
-        for ii in range(edof.shape[1]):
-            R_int[edof[0, ii], 0] = re[ii, 0] + R_int[edof[0, ii], 0]
+        re = np.transpose(re)
+        R_int[edof, 0] = re + R_int[edof, 0]
     
     return R_int

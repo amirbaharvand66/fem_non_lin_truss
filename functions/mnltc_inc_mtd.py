@@ -38,6 +38,8 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_
     inc : number of increments
     D_n : final displacement vector for plotting
     p_n : final force vector for plotting
+    max_itr : maximum iteration for each load increment in NR and MNR methods
+    epsilon : required for acceptance criterion of residuals in NR and MNR methods
     c1..c4 : signorini constant
     method : method for solving problem
 

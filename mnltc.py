@@ -8,8 +8,6 @@ from matplotlib import pyplot as plt
 from inp_files.e03 import * # select input file
 from functions.ltc_funcs import *
 from functions.nltc_funcs import *
-from functions.plots import *
-from functions.out_opr import *
 from functions.signorini_stress_strain import *
 from functions.mnltc_inc_mtd import * # material nonlinearity incremental methods
 
@@ -20,7 +18,7 @@ mprop = np.matrix(mprop)
 loads = np.matrix(loads)
 bound =np.matrix(bound)
 
-# necessary data
+# required data
 neq = X.shape[0] * X.shape[1] # number of equations
 ne = IX.shape[0] # number of elements
 nb = bound.shape[0] # number of boundary conditions
@@ -66,7 +64,7 @@ mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_n, p
 plt.xlabel('Displacement [mm]')
 plt.ylabel('Force [N]')
 plt.legend(loc = 'lower right')
-plt.show
+plt.show()
 
 
 

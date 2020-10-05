@@ -2,6 +2,7 @@ from math import *
 import numpy as np
 import matplotlib
 from matplotlib import pyplot as plt
+import os
 
 from inp_files.e02 import * # select input file
 from functions.ltc_funcs import *
@@ -68,16 +69,16 @@ for n in range(ne):
     N[n, 0] = A * ls[n, 0]
     # computing residual vector 
     re = A * E * L0 * np.matmul(np.matmul(B0, np.transpose(B0)), d) # local residual
-    re = np.transpose(re)
-    for ii in range(edof.shape[1]):
-        R[edof[0, ii], 0] = re[ii, 0] + R[edof[0, ii], 0]
+    R[edof, 0] = re + R[edof, 0]
 
 # computing reaction forces at supports
 RF = R - p
 
 
 plot_def_udef(IX, X, D, ls, ne)
+plt.axis('square')
 plt.show()
+
 
 # write_output(ne, neq, D, RF, le, ls, N)
 # show_output(ne, neq, D, RF, le, ls, N)
