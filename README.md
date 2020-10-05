@@ -5,6 +5,7 @@ Finite Element Method (FEM) for non-linear trusses
 
 ## Features
 - Material non-linearity (explicit-implicit)
+- Geometry non-lineary (using Newton-Raphson method and for a linear material)
 - Supports 2d trusses
 
 ## Modulus
