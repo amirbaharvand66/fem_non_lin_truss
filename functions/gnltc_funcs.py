@@ -30,8 +30,8 @@ def gnltc_nr(X, IX, mprop, loads, bound, st, neq, ne, nl, nb, nst, p, D, dD, R, 
     R : internal force (residual vector)
     dpR : (dP - R), dP : infinitesimal load
     inc : number of increments
-    D_n : final displacement vector for plotting
-    p_n : final force vector for plotting
+    d_ : final displacement vector for plotting
+    p_ : final force vector for plotting
     max_itr : maximum iteration for each load increment in NR and MNR methods
     epsilon : required for acceptance criterion of residuals in NR and MNR methods
     spring : spring stiffness(on/off)

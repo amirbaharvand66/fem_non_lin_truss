@@ -10,7 +10,7 @@ from functions.nltc_funcs import *
 from functions.mnltc_inc_mtd import *
 
 
-def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_n, p_n, c1, c2, c3, c4, method, max_itr = 0, epsilon = 0):
+def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, d_, p_, c1, c2, c3, c4, method, max_itr = 0, epsilon = 0):
     """
     FEM nonlinear
     Material NonLinearity Truss Codes (mnltc) incremental methods
@@ -36,20 +36,22 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_
     R : internal force (residual vector)
     dpR : (dP - R), dP : infinitesimal load
     inc : number of increments
-    D_n : final displacement vector for plotting
-    p_n : final force vector for plotting
+    d_ : final displacement vector for plotting
+    p_ : final force vector for plotting
     max_itr : maximum iteration for each load increment in NR and MNR methods
     epsilon : required for acceptance criterion of residuals in NR and MNR methods
     c1..c4 : signorini constant
     method : method for solving problem
 
     originally coded by Amir Baharvand (AB) (09-20)
+    generality added by AB (10-20)
     """
     ##################################
     # 1. Pure Euler method (PE) method
     ##################################
     if method == 'PE':
-    
+        label = 'Pure Euler Method'
+        marker = '-^'
         # build-up point load vector
         p = build_load_vec(loads, nl, p)
         dp = p / inc # creating load increment
@@ -71,19 +73,18 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_
             # pseudo-inverse of K based on singular value decomposition (SVD)
             dD = np.linalg.pinv(K).dot(dp)
             D = D + dD
-            idx = np.where(dp != 0)[0]
-            D_n[l_inc] = D[idx] # appending displacements for the node where p != 0
-            p_n[l_inc] = (l_inc + 1) * dp[dp != 0] # appending forces for the node where p != 0
-        
-        
-        plt.plot(D_n, p_n, '-^', label = 'Pure Euler Method')
-    
+            
+            # saving displacement and force
+            d_[:, l_inc] = D[:, 0]
+            p_[:, l_inc] = (l_inc + 1) * dp[:, 0]
+            
 
     #####################################################################
     # 2. Euler method with ones step equilibrium correction (E1SC) method
     #####################################################################
     if method == 'E1SC':
-        
+        label = 'Euler method with ones step equilibrium correction'
+        marker = '-o'
         # build-up point load vector
         p = build_load_vec(loads, nl, p)
         dp = p / inc # creating load increment
@@ -111,24 +112,24 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_
             # pseudo-inverse of K based on singular value decomposition (SVD)
             dD = np.linalg.pinv(K).dot(dpR)
             D = D + dD
-            idx = np.where(dp != 0)[0]
-            D_n[l_inc] = D[idx] # appending displacements for the node where p != 0
-            p_n[l_inc] = (l_inc + 1) * dp[dp != 0] # appending forces for the node where p != 0
-        
+            
+            # saving displacement and force
+            d_[:, l_inc] = D[:, 0]
+            p_[:, l_inc] = (l_inc + 1) * dp[:, 0]
             
             # computing R_int
             R_int = mnl_int_force(IX, X, mprop, ne, D, R_int, c1, c2, c3, c4)
             
             # computing R = R_int - p
             R = R_int - (l_inc + 1) * dp
-    
-        plt.plot(D_n, p_n, '-s', label = 'Euler method with ones step equilibrium correction')
 
 
     ###############################
     # 3. Newton-Raphson (NR) method
     ###############################
     if method == 'NR':
+        label = 'Newton-Raphson Method' 
+        marker = '-x'
         
         # build-up point load vector
         p = build_load_vec(loads, nl, p)
@@ -175,17 +176,17 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_
                 dD = sp.linalg.lu_solve((-LUM, PM), R) # -inv(UM) * (inv(LM) * R);
                 D = D + dD
                 
-            idx = np.where(dp != 0)[0]
-            D_n[l_inc] = D[idx] # appending displacements for the node where p != 0
-            p_n[l_inc] = (l_inc + 1) * dp[dp != 0] # appending forces for the node where p != 0
-            
-        plt.plot(D_n, p_n, '-o', label = 'Newton-Raphson Method')
+            # saving displacement and force
+            d_[:, l_inc] = D[:, 0]
+            p_[:, l_inc] = (l_inc + 1) * dp[:, 0]
+        
     
-
     #########################################
     # 4. Modified Newton-Raphson (MNR) method
     #########################################
     if method == 'MNR':
+        label = 'Modified Newton-Raphson Method'
+        marker = '-s'
         
         # build-up point load vector
         p = build_load_vec(loads, nl, p)
@@ -235,8 +236,9 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_
                 dD = sp.linalg.lu_solve((-LUM, PM), R) # -inv(UM) * (inv(LM) * R);
                 D = D + dD
                 
-            idx = np.where(dp != 0)[0]
-            D_n[l_inc] = D[idx] # appending displacements for the node where p != 0
-            p_n[l_inc] = (l_inc + 1) * dp[dp != 0] # appending forces for the node where p != 0   
+            # saving displacement and force
+            d_[:, l_inc] = D[:, 0]
+            p_[:, l_inc] = (l_inc + 1) * dp[:, 0] 
                        
-        plt.plot(D_n, p_n, '-x', label = 'Modified Newton-Raphson Method')
+    
+    return d_, p_, marker, label

@@ -31,8 +31,8 @@ dD = np.zeros((neq, 1), dtype = 'd') # infinitesimal displacement vector
 R = np.zeros((neq, 1)) # internal force (residual vector)
 dpR = np.zeros((neq, 1)) # (dP - R)
 inc = 20 # number of increments
-D_n = np.zeros(inc) # final displacement vector for plotting
-p_n = np.zeros(inc) # final force vector for plotting
+d_ = np.zeros((neq, inc)) # final displacement vector for plotting
+p_ = np.zeros((neq, inc)) # final force vector for plotting
 
 
 # calculating constants
@@ -45,36 +45,28 @@ c4 = 100 # signorini constant
 signorini_stress_strain(X, IX, mprop, loads, c1, c2, c3, c4)
 
 # pure euler method (explicit)
-mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_n, p_n, c1, c2, c3, c4, 'PE')
+d_, p_, marker, label = mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, \
+                        dpR, inc, d_, p_, c1, c2, c3, c4, 'PE')
 
 # euler method with ones step equilibrium correction (explicit)
-mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_n, p_n, c1, c2, c3, c4, 'E1SC')
+# d_, p_, marker, label = mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD,\
+#     R, dpR, inc, d_, p_, c1, c2, c3, c4, 'E1SC')
 
 
 # newton-raphson method (implicit)
 max_itr = 100 # maximum iteration in NR method
 epsilon = 1e-12 # for accepting difference between the external force and residuals
-mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_n, p_n, c1, c2, c3, c4, 'NR', max_itr = max_itr, epsilon = epsilon)
+# d_, p_, marker, label = mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, \
+#                               R, dpR, inc, d_, p_, c1, c2, c3, c4, 'NR', max_itr = max_itr, epsilon = epsilon)
 
 # modified newton-raphson method (implicit)
-mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, D_n, p_n, c1, c2, c3, c4, 'MNR', max_itr = max_itr, epsilon = epsilon)
+# d_, p_, marker, label = mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, \
+#                               R, dpR, inc, d_, p_, c1, c2, c3, c4, 'MNR', max_itr = max_itr, epsilon = epsilon)
 
 
-# legends and labels for plots
+# plot displacement and force for the desire node
+plt.plot(d_[4, :], p_[4, :], marker, label = label)
 plt.xlabel('Displacement [mm]')
 plt.ylabel('Force [N]')
 plt.legend(loc = 'lower right')
 plt.show()
-
-
-
-
-
-
-
-
-
-
-
-    
-
