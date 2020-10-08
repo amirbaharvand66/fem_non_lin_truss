@@ -8,6 +8,7 @@ from inp_files.e02 import * # select input file
 from functions.ltc_funcs import *
 from functions.plots import *
 from functions.out_opr import *
+from functions.num_sol import *
 
 # import truss data
 X = np.matrix(X)
@@ -56,6 +57,9 @@ p = build_load_vec(loads, nl, p)
 # for K matrices close to singular or ill-conditioned, 
 # pseudo-inverse of K based on singular value decomposition (SVD)
 D = np.linalg.pinv(K).dot(p)
+
+# or you can choose myh explicit Gaussian elimination function
+# D = gauss_elm(K, p, D)
 
 # computing R
 for n in range(ne):
