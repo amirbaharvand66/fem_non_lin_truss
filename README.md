@@ -23,5 +23,7 @@ Coded with Python. Required Numpy, Matplotlib and SciPy packages to run.
 ## Note
 For geometry non-linearity the code still is slow because of large size of the tangential stiffness matrix. In later version, a bandwidth approach will be implemented to reduce the computational cost.
 
+Gaussian elimination is available in *functions/num_sol*.
+
 ## Contributor(s)
 [Amir Baharvand](ambahar@outlook.com)
