@@ -136,7 +136,6 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, d_
         dp = p / inc # creating load increment
         
         for l_inc in range(inc): # loop over l_inc (load increment)
-            p = l_inc * p + dp
             
             for eq_itr in range (max_itr):
                 
@@ -159,9 +158,9 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, d_
                     else: # if (b % 2) == 0
                         R[2 * a - 1, :] = 0
             
-                    # strop iteration criterion
-                    if np.linalg.norm(R) <= epsilon * np.linalg.norm(p):
-                        break
+                # strop iteration criterion
+                if np.linalg.norm(R) <= epsilon * np.linalg.norm(p):
+                    break
                 
                 # computing tangential stiffness matrix (K)
                 K = mnl_K(IX, X, mprop, ne, D, K, c1, c2, c3, c4)
@@ -196,7 +195,6 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, d_
         K = np.zeros((neq, neq)) # tangential stiffness matrix (K)
         
         for l_inc in range(inc): # loop over l_inc (load increment)
-            p = l_inc * p + dp
             
             # computing tangential stiffness matrix (K)
             K = mnl_K(IX, X, mprop, ne, D, K, c1, c2, c3, c4)
@@ -228,9 +226,9 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, d_
                     else: # if (b % 2) == 0
                         R[2 * a - 1, :] = 0
                     
-                    # strop iteration criterion
-                    if np.linalg.norm(R) <= epsilon * np.linalg.norm(p):
-                        break
+                # strop iteration criterion
+                if np.linalg.norm(R) <= epsilon * np.linalg.norm(p):
+                    break
                     
                 # computing dD
                 dD = sp.linalg.lu_solve((-LUM, PM), R) # -inv(UM) * (inv(LM) * R);
