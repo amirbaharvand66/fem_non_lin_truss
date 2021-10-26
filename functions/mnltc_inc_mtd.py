@@ -130,6 +130,12 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, d_
     if method == 'NR':
         label = 'Newton-Raphson Method' 
         marker = '-x'
+
+        print('###############################')
+        print('# Newton-Raphson (MNR) method #')
+        print('###############################')
+        print('Load Increment \t\t Iteration')
+        print('************** \t\t *********')
         
         # build-up point load vector
         p = build_load_vec(loads, nl, p)
@@ -174,10 +180,18 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, d_
                 # computing dD
                 dD = sp.linalg.lu_solve((-LUM, PM), R) # -inv(UM) * (inv(LM) * R);
                 D = D + dD
-                
+            
+            # increment and iteration check
+            if eq_itr + 1 >= max_itr:
+                print("MAXIMUM NUMBER OF ITEARTION REACHED!!!")
+                break
+
             # saving displacement and force
             d_[:, l_inc] = D[:, 0]
             p_[:, l_inc] = (l_inc + 1) * dp[:, 0]
+
+            # monitor load increments and iteration
+            print('{:d} \t\t\t {:d}'.format(l_inc, eq_itr))  
         
     
     #########################################
@@ -186,6 +200,12 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, d_
     if method == 'MNR':
         label = 'Modified Newton-Raphson Method'
         marker = '-s'
+
+        print('########################################')
+        print('# Modified Newton-Raphson (MNR) method #')
+        print('########################################')
+        print('Load Increment \t\t Iteration')
+        print('************** \t\t *********')
         
         # build-up point load vector
         p = build_load_vec(loads, nl, p)
@@ -233,10 +253,17 @@ def mnltc(X, IX, mprop, loads, bound, neq, ne, nl, nb, p, D, dD, R, dpR, inc, d_
                 # computing dD
                 dD = sp.linalg.lu_solve((-LUM, PM), R) # -inv(UM) * (inv(LM) * R);
                 D = D + dD
-                
+            
+            # increment and iteration check
+            if eq_itr + 1 >= max_itr:
+                print("MAXIMUM NUMBER OF ITEARTION REACHED!!!")
+                break
+
             # saving displacement and force
             d_[:, l_inc] = D[:, 0]
             p_[:, l_inc] = (l_inc + 1) * dp[:, 0] 
-                       
+
+            # monitor load increments and iteration
+            print('{:d} \t\t\t {:d}'.format(l_inc, eq_itr))                       
     
     return d_, p_, marker, label
